@@ -34,4 +34,12 @@ class StringCalculatorTest {
         assertEquals(52, stringCalculator.add("10,42"));
     }
 
+    @Test
+    void addWithNStrings() {
+        assertEquals(21, stringCalculator.add("1,2,3,4,5,6"));
+        assertEquals(5, stringCalculator.add("5"));
+        assertEquals(684, stringCalculator.add("10,42,1,1,1,1,2,4,22,110,134,142,214"));
+        assertEquals(0, stringCalculator.add(""));
+    }
+
 }

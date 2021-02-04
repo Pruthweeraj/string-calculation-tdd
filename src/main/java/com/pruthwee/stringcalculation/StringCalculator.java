@@ -8,12 +8,10 @@ public class StringCalculator {
 
 
     public int add(String numbers) {
-        if (!StringUtils.hasText(numbers)) {
-            return 0;
-        }
 
-        String[] numberArray = numbers.split(",");
-        return Arrays.stream(numberArray).mapToInt(Integer::parseInt).sum();
+        return Arrays.stream(numbers.split(",")).filter(StringUtils::hasText)
+                .mapToInt(Integer::parseInt)
+                .sum();
 
     }
 }
