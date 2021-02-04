@@ -1,9 +1,19 @@
 package com.pruthwee.stringcalculation;
 
+import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+
 public class StringCalculator {
 
 
-    public static int add(String s) {
-        return 0;
+    public int add(String numbers) {
+        if (!StringUtils.hasText(numbers)) {
+            return 0;
+        }
+
+        String[] numberArray = numbers.split(",");
+        return Arrays.stream(numberArray).mapToInt(Integer::parseInt).sum();
+
     }
 }
