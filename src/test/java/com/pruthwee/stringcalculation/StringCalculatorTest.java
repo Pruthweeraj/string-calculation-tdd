@@ -42,4 +42,12 @@ class StringCalculatorTest {
         assertEquals(0, stringCalculator.add(""));
     }
 
+    @Test
+    void addWithNewLineIncludeStrings() {
+        assertEquals(3, stringCalculator.add("1\n2,"));
+        assertEquals(5, stringCalculator.add("5\n"));
+        assertEquals(684, stringCalculator.add("10,42,1\n1,1,1,2,4,22,110\n134,142\n214"));
+        assertEquals(0, stringCalculator.add(""));
+    }
+
 }
