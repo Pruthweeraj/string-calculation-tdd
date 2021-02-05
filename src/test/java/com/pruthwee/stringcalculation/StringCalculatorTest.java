@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringCalculatorTest {
@@ -59,17 +61,17 @@ class StringCalculatorTest {
     }
 
     @Test
-    void addWithNegativesNotAllowed(){
-        try{
+    void addWithNegativesNotAllowed() {
+        try {
             stringCalculator.add("-1,4,-90");
             fail("Exception Expected for negative values");
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             assertEquals("negatives not allowed -1, -90", e.getMessage());
         }
     }
 
     @Test
-    void addWithBiggerThanOneThousandShouldIgnored(){
+    void addWithBiggerThanOneThousandShouldIgnored() {
         assertEquals(2, stringCalculator.add("1002"));
         assertEquals(222, stringCalculator.add("1222"));
         assertEquals(23, stringCalculator.add("1001,22"));
@@ -81,6 +83,12 @@ class StringCalculatorTest {
         assertEquals(10, stringCalculator.add("//,,,\n5,,,5"));
         assertEquals(684, stringCalculator.add("//@\n10@42@1@1@1@1@2@4@22@110@134@142@214"));
         assertEquals(0, stringCalculator.add(""));
+    }
+
+    @Test
+    void addWithMultipleDelimiters() {
+        assertEquals(22, stringCalculator.add("//[,][*]\n10,10*2"));
+        assertEquals(22, stringCalculator.add("//[,][@]\n10,10@2"));
     }
 
 }

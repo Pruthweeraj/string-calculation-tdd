@@ -3,14 +3,18 @@ package com.pruthwee.stringcalculation;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringCalculator {
 
     private static final int squeezerValue = 1000;
     private static final String defaultDelimiters = "[,\n]";
+    private static final String customDelimiterRegex = "\\[(.*?)\\]";
 
     public int add(String numbers) {
 
@@ -47,16 +51,55 @@ public class StringCalculator {
     }
 
     private String removeDelimiterFormat(String numbers, String customDelimiter) {
-        String delimiterFormat = "//" + customDelimiter + "\n";
+        String delimiterFormat = numbers.substring(0, numbers.indexOf("\n") + 1);
         return numbers.replace(delimiterFormat, "");
     }
 
     private String getCustomDelimiter(String numbers) {
 
-        if (numbers.startsWith("//")) {
-            int delimiterEndIndex = numbers.indexOf("\n");
-            return numbers.substring(2, delimiterEndIndex);
+        if (numbers.startsWith("//[")) {
+            return customDelimiterWithMultipleToken(numbers);
+        } else if (numbers.startsWith("//")) {
+            return customDelimiterWithSingleToken(numbers);
         }
         return null;
     }
+
+    private String customDelimiterWithMultipleToken(String numbers) {
+        int delimiterEndIndex = numbers.indexOf("\n");
+        String delimiterString = numbers.substring(2, delimiterEndIndex);
+
+        List<String> allDelimiters = getAllDelimiters(delimiterString);
+
+        return formatMultipleTokenRegex(allDelimiters);
+    }
+
+    private List<String> getAllDelimiters(String delimiterString) {
+        final Pattern pattern = Pattern.compile(customDelimiterRegex, Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(delimiterString);
+
+        List<String> multiRegexStrings = new ArrayList<>();
+        int indexCounter = 0;
+        while (matcher.find()) {
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                System.out.println(i + ": " + matcher.group(i));
+                String regVal = matcher.group(i);
+                if (regVal != null) {
+                    multiRegexStrings.add(regVal);
+                }
+            }
+        }
+        return multiRegexStrings;
+    }
+
+    private String formatMultipleTokenRegex(List<String> allDelimiters) {
+
+        return "[" + String.join("", allDelimiters) + "]";
+    }
+
+    private String customDelimiterWithSingleToken(String numbers) {
+        int delimiterEndIndex = numbers.indexOf("\n");
+        return numbers.substring(2, delimiterEndIndex);
+    }
+
 }
