@@ -58,4 +58,14 @@ class StringCalculatorTest {
         assertEquals(0, stringCalculator.add(""));
     }
 
+    @Test
+    void addWithNegativesNotAllowed(){
+        try{
+            stringCalculator.add("-1,4,-90");
+            fail("Exception Expected for negative values");
+        }catch (NumberFormatException e){
+            assertEquals("negatives not allowed -1, -90", e.getMessage());
+        }
+    }
+
 }
