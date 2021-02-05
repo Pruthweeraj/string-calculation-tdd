@@ -9,16 +9,20 @@ import java.util.stream.Collectors;
 
 public class StringCalculator {
 
+    private static final int squeezerValue = 1000;
+    private static final String defaultDelimiters = "[,\n]";
 
     public int add(String numbers) {
 
-        String defaultDelimiters = "[,\n]";
         String customDelimiter = getCustomDelimiter(numbers);
 
         numbers = cleanPrefixDelimiter(numbers, customDelimiter);
         List<Integer> numbersList = getNumbersFromNumberString(numbers, defaultDelimiters, customDelimiter);
 
         ValidateNumbers(numbersList);
+
+        numbersList = numbersList.stream().map(bigNumber -> bigNumber % squeezerValue).collect(Collectors.toList());
+
         return numbersList.stream().mapToInt(i -> i).sum();
 
     }

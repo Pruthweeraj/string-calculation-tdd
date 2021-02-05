@@ -68,4 +68,11 @@ class StringCalculatorTest {
         }
     }
 
+    @Test
+    void addWithBiggerThanOneThousandShouldIgnored(){
+        assertEquals(2, stringCalculator.add("1002"));
+        assertEquals(222, stringCalculator.add("1222"));
+        assertEquals(23, stringCalculator.add("1001,22"));
+    }
+
 }
