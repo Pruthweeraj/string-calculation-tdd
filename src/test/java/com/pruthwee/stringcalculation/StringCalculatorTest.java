@@ -51,7 +51,7 @@ class StringCalculatorTest {
     }
 
     @Test
-    void addWithCustomDecimeter() {
+    void addWithCustomDelimiter() {
         assertEquals(22, stringCalculator.add("//;\n12;10"));
         assertEquals(10, stringCalculator.add("//,\n5,5"));
         assertEquals(684, stringCalculator.add("//@\n10@42@1@1@1@1@2@4@22@110@134@142@214"));
@@ -73,6 +73,14 @@ class StringCalculatorTest {
         assertEquals(2, stringCalculator.add("1002"));
         assertEquals(222, stringCalculator.add("1222"));
         assertEquals(23, stringCalculator.add("1001,22"));
+    }
+
+    @Test
+    void addWithCustomDelimiterWithAnyLength() {
+        assertEquals(22, stringCalculator.add("//;;\n12;;10"));
+        assertEquals(10, stringCalculator.add("//,,,\n5,,,5"));
+        assertEquals(684, stringCalculator.add("//@\n10@42@1@1@1@1@2@4@22@110@134@142@214"));
+        assertEquals(0, stringCalculator.add(""));
     }
 
 }

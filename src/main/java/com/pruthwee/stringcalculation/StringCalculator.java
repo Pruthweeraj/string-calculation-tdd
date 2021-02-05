@@ -54,7 +54,8 @@ public class StringCalculator {
     private String getCustomDelimiter(String numbers) {
 
         if (numbers.startsWith("//")) {
-            return String.valueOf(numbers.charAt(2));
+            int delimiterEndIndex = numbers.indexOf("\n");
+            return numbers.substring(2, delimiterEndIndex);
         }
         return null;
     }
