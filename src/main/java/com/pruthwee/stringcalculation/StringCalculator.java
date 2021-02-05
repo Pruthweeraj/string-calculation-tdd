@@ -19,12 +19,9 @@ public class StringCalculator {
     public int add(String numbers) {
 
         String customDelimiter = getCustomDelimiter(numbers);
-
         numbers = cleanPrefixDelimiter(numbers, customDelimiter);
-        List<Integer> numbersList = getNumbersFromNumberString(numbers, defaultDelimiters, customDelimiter);
-
+        List<Integer> numbersList = getNumbersFromNumberString(numbers, customDelimiter);
         ValidateNumbers(numbersList);
-
         numbersList = numbersList.stream().map(bigNumber -> bigNumber % squeezerValue).collect(Collectors.toList());
 
         return numbersList.stream().mapToInt(i -> i).sum();
@@ -38,19 +35,19 @@ public class StringCalculator {
         }
     }
 
-    private List<Integer> getNumbersFromNumberString(String numbers, String defaultDelimiters, String customDelimiter) {
-        return Arrays.stream(numbers.split(customDelimiter != null ? customDelimiter : defaultDelimiters)).filter(StringUtils::hasText)
+    private List<Integer> getNumbersFromNumberString(String numbers, String customDelimiter) {
+        return Arrays.stream(numbers.split(customDelimiter != null ? customDelimiter : StringCalculator.defaultDelimiters)).filter(StringUtils::hasText)
                 .mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
     }
 
     private String cleanPrefixDelimiter(String numbers, String customDelimiter) {
         if (null != customDelimiter) {
-            numbers = removeDelimiterFormat(numbers, customDelimiter);
+            numbers = removeDelimiterFormat(numbers);
         }
         return numbers;
     }
 
-    private String removeDelimiterFormat(String numbers, String customDelimiter) {
+    private String removeDelimiterFormat(String numbers) {
         String delimiterFormat = numbers.substring(0, numbers.indexOf("\n") + 1);
         return numbers.replace(delimiterFormat, "");
     }
@@ -79,10 +76,8 @@ public class StringCalculator {
         final Matcher matcher = pattern.matcher(delimiterString);
 
         List<String> multiRegexStrings = new ArrayList<>();
-        int indexCounter = 0;
         while (matcher.find()) {
             for (int i = 1; i <= matcher.groupCount(); i++) {
-                System.out.println(i + ": " + matcher.group(i));
                 String regVal = matcher.group(i);
                 if (regVal != null) {
                     multiRegexStrings.add(regVal);
@@ -93,7 +88,6 @@ public class StringCalculator {
     }
 
     private String formatMultipleTokenRegex(List<String> allDelimiters) {
-
         return "[" + String.join("", allDelimiters) + "]";
     }
 

@@ -2,11 +2,9 @@ package com.pruthwee.stringcalculation;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class StringCalculatorTest {
 
@@ -89,6 +87,12 @@ class StringCalculatorTest {
     void addWithMultipleDelimiters() {
         assertEquals(22, stringCalculator.add("//[,][*]\n10,10*2"));
         assertEquals(22, stringCalculator.add("//[,][@]\n10,10@2"));
+    }
+
+    @Test
+    void addWithMultipleDelimitersLongerLengthMoreThanOne() {
+        assertEquals(22, stringCalculator.add("//[,,][**]\n10,,10**2"));
+        assertEquals(60, stringCalculator.add("//[,,,][@@@@]\n10,,,20@@@@30"));
     }
 
 }
